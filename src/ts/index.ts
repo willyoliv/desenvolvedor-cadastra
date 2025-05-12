@@ -1,9 +1,28 @@
-import { Product } from "./Product";
+import { fetchProducts } from "./services/getProducts";
+import { Product } from "./types/Product";
+import { createProductCard } from "./components/createProductCard";
+import { closeFilterMobile, openFilterMobile } from "./ui/filter";
 
-const serverUrl = "http://localhost:5000";
+const loadWindowFunctions = () => {
+  window.openFilterMobile = openFilterMobile;
+  window.closeFilterMobile = closeFilterMobile;
+}
 
-function main() {
-  console.log(serverUrl);
+async function main() {
+  const container = document.getElementById("products");
+  if (!container) return;
+
+  loadWindowFunctions();
+
+  try {
+    const products: Product[] = await fetchProducts();
+    products.forEach(product => {
+      const card = createProductCard(product);
+      container.appendChild(card);
+    });
+  } catch (err) {
+    console.error("Erro ao carregar produtos:", err);
+  }
 }
 
 document.addEventListener("DOMContentLoaded", main);

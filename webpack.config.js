@@ -13,12 +13,14 @@ module.exports = (paths) => ({
   module: {
     rules: [
       {
-        test: /\.(js|jsx|ts|tsx)$/,
-        exclude: /(node_modules|bower_components)/,
-        include: path.resolve(__dirname, paths.scripts.src),
+        test: /\.(ts|tsx|js|jsx)$/,
+        exclude: /node_modules/,
         use: "ts-loader",
       },
     ],
+  },
+  resolve: {
+    extensions: [".ts", ".tsx", ".js", ".jsx"],
   },
   plugins: [],
 });
