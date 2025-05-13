@@ -1,4 +1,4 @@
 interface Window {
-  openFilterMobile: () => void;
+  openFilterMobile: (section: 'filter' | 'sort') => void;
   closeFilterMobile: () => void;
 }

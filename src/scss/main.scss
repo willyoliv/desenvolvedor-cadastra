@@ -1,11 +1,22 @@
 @import "reset";
+@import "variables";
+
+* {
+  box-sizing: border-box;
+  padding: 0;
+  margin: 0;
+}
+
+body.panel-open {
+  overflow: hidden;
+}
 
 .header {
-  background-color: #fff;
+  background-color: $white;
   height: 64px;
-  border-bottom: 1px solid #c7c7c7;
 
   &-content {
+    border-bottom: 1px solid $light-gray;
     display: flex;
     justify-content: space-between;
     align-items: center;
@@ -15,17 +26,37 @@
 }
 
 main {
+  .page-tittle {
+    font-family: $font-primary;
+    font-weight: 400;
+    font-size: 32px;
+    line-height: 100%;
+    color: $dark-gray;
+    margin: 24px 0 12px;
+    text-align: center;
+  }
+
   display: flex;
   flex-direction: column;
   align-items: center;
   padding: 0 16px;
 
   .nav-filter {
-    border: 1px solid #666666;
+    border: 1px solid $gray;
+    width: 343px;
+    height: 49px;
+    display: flex;
+    justify-content: space-between;
 
     .button-filter {
       background-color: transparent;
       border: none;
+      width: 100%;
+      font-family: $font-primary;
+      font-weight: 400;
+      font-size: 24px;
+      line-height: 100%;
+      color: $gray;
     }
   }
 
@@ -34,15 +65,213 @@ main {
     inset: 0;
     width: 100vw;
     height: 100vh;
-    background-color: #fff;
+    background-color: $white;
     display: none;
     flex-direction: column;
     z-index: 1000;
-    padding: 1rem;
     overflow-y: auto;
+
+    .close-button {
+      background: none;
+      border: none;
+      cursor: pointer;
+      position: absolute;
+      top: 16px;
+      right: 16px;
+      height: 16px;
+      width: 16px;
+
+      .close-icon {
+        width: 18px;
+        height: 18px;
+      }
+    }
+
+    &__content {
+      padding-bottom: 88px;
+    }
+
+    &__title {
+      padding: 16px;
+      border-bottom: 1px solid $gray;
+      font-family: $font-primary;
+      font-weight: 400;
+      font-size: 28px;
+      line-height: 100%;
+      letter-spacing: 0%;
+      text-transform: uppercase;
+      color: $gray;
+    }
 
     &.open {
       display: flex;
     }
+
+    .panel-section {
+      display: none;
+
+      &.active {
+        display: block;
+      }
+
+      &.sort-section {
+        .sort-options {
+          width: 100%;
+          padding: 30px 16px 0;
+          display: flex;
+          flex-direction: column;
+          row-gap: 30px;
+
+          .sort-button-option {
+            background-color: transparent;
+            border: none;
+            cursor: pointer;
+            text-align: left;
+            font-family: $font-primary;
+            font-weight: 400;
+            font-size: 22px;
+            line-height: 100%;
+            color: $black;
+          }
+        }
+      }
+
+      &.filter-section {
+        .filter-group {
+          padding: 30px 16px 0;
+
+          .filter-toggle {
+            width: 100%;
+            background-color: transparent;
+            border: none;
+            cursor: pointer;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            font-family: $font-primary;
+            font-weight: 400;
+            font-size: 24px;
+            color: $gray;
+            padding: 0;
+          }
+
+          .filter-options {
+            flex-direction: column;
+            row-gap: 16px;
+            padding-top: 20px;
+
+            .custom-checkbox {
+              display: flex;
+              align-items: center;
+              gap: 8px;
+              cursor: pointer;
+              position: relative;
+              font-family: $font-primary;
+              font-size: 14px;
+              color: $black;
+
+              input[type="checkbox"] {
+                position: absolute;
+                opacity: 0;
+                width: 0;
+                height: 0;
+
+                &:checked + .checkmark::after {
+                  content: "";
+                  position: absolute;
+                  top: 2px;
+                  left: 2px;
+                  width: $check-inner-size;
+                  height: $check-inner-size;
+                  background-color: $orange;
+                }
+              }
+
+              .checkmark {
+                width: $checkbox-size;
+                height: $checkbox-size;
+                border: 1px solid rgba($black, 0.5);
+                box-sizing: border-box;
+                position: relative;
+              }
+            }
+
+            &.size-options {
+              grid-template-columns: repeat(4, 1fr);
+              gap: 8px;
+              width: fit-content;
+            }
+
+            .size-box {
+              width: 32px;
+              height: 32px;
+              border: 1px solid $black-50;
+              background-color: transparent;
+              border-radius: 0;
+
+              font-family: $font-primary;
+              font-weight: 400;
+              font-size: 16px;
+              line-height: 100%;
+              text-transform: uppercase;
+              color: $black-50;
+
+              &.selected {
+                border-color: $orange;
+                color: $black;
+              }
+            }
+          }
+        }
+
+        .filter-actions {
+          position: fixed;
+          bottom: 0;
+          left: 0;
+          width: 100%;
+          padding: 16px;
+          background-color: $white;
+          display: flex;
+          justify-content: space-between;
+          gap: 8px;
+          z-index: 1001;
+
+          .filter-button-option {
+            flex: 1;
+            padding: 12px 0;
+            font-size: 16px;
+            cursor: pointer;
+            text-transform: uppercase;
+
+            &.btn-primary {
+              border: none;
+              background-color: $orange;
+              color: $white;
+            }
+
+            &.btn-secondary {
+              border: 1px solid $gray;
+              background-color: transparent;
+              color: $gray;
+            }
+          }
+        }
+      }
+    }
   }
+}
+
+footer {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  height: 33px;
+  background-color: $black;
+  font-family: $font-primary;
+  font-weight: 400;
+  font-size: 14px;
+  line-height: 100%;
+  text-transform: uppercase;
+  color: $white;
+  text-align: center;
 }

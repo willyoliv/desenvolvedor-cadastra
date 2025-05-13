@@ -2,6 +2,7 @@ import { fetchProducts } from "./services/getProducts";
 import { Product } from "./types/Product";
 import { createProductCard } from "./components/createProductCard";
 import { closeFilterMobile, openFilterMobile } from "./ui/filter";
+import { createFilters } from "./components/createFilterInput";
 
 const loadWindowFunctions = () => {
   window.openFilterMobile = openFilterMobile;
@@ -20,6 +21,8 @@ async function main() {
       const card = createProductCard(product);
       container.appendChild(card);
     });
+
+    createFilters();
   } catch (err) {
     console.error("Erro ao carregar produtos:", err);
   }
