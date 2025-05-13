@@ -5,7 +5,7 @@ const colors = [
   "Verde", "Vermelho", "Preto", "Rosa", "Vinho"
 ];
 
-const sizes = ["P", "M", "G", "GG", "U", "36","38", "40"];
+const sizes = ["P", "M", "G", "GG", "U", "36", "38", "40"];
 
 const priceRanges = [
   "de R$0 até R$50",
@@ -16,15 +16,30 @@ const priceRanges = [
 ];
 
 export function createFilters(): void {
-  const filterOptions = document.getElementById('filterOptions');
-  if (!filterOptions) return;
+  const isMobile = window.innerWidth < 1024;
 
-  filterOptions.appendChild(createFilterGroup("CORES", colors, "checkbox"));
-  filterOptions.appendChild(createFilterGroup("TAMANHOS", sizes, "button"));
-  filterOptions.appendChild(createFilterGroup("FAIXA DE PREÇO", priceRanges, "checkbox"));
+  if (isMobile) {
+    const container = document.getElementById('filterOptions');
+    if (!container) return;
+
+    container.appendChild(createMobileFilterGroup("CORES", colors, "checkbox"));
+    container.appendChild(createMobileFilterGroup("TAMANHOS", sizes, "button"));
+    container.appendChild(createMobileFilterGroup("FAIXA DE PREÇO", priceRanges, "checkbox"));
+  } else {
+    const container = document.getElementById('filterOptionsDesktop');
+    if (!container) return;
+
+    container.appendChild(createDesktopFilterGroup("CORES", colors, "checkbox"));
+    container.appendChild(createDesktopFilterGroup("TAMANHOS", sizes, "button"));
+    container.appendChild(createDesktopFilterGroup("FAIXA DE PREÇO", priceRanges, "checkbox"));
+  }
 }
 
-function createFilterGroup(title: string, items: string[], type: FilterType): HTMLDivElement {
+function createMobileFilterGroup(
+  title: string,
+  items: string[],
+  type: FilterType
+): HTMLDivElement {
   const group = document.createElement('div');
   group.classList.add('filter-group');
 
@@ -33,6 +48,27 @@ function createFilterGroup(title: string, items: string[], type: FilterType): HT
   optionsContainer.style.display = 'none';
 
   group.appendChild(toggleButton);
+  group.appendChild(optionsContainer);
+  return group;
+}
+
+function createDesktopFilterGroup(
+  title: string,
+  items: string[],
+  type: FilterType
+): HTMLDivElement {
+  const group = document.createElement('div');
+  group.classList.add('filter-group');
+
+  const heading = document.createElement('h3');
+  heading.className = 'filter-title';
+  heading.textContent = title;
+
+  const optionsContainer = createOptionsContainer(items, title, type);
+  const displayStyle = type === "checkbox" ? "flex" : "grid";
+  optionsContainer.style.display = displayStyle;
+
+  group.appendChild(heading);
   group.appendChild(optionsContainer);
   return group;
 }
