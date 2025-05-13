@@ -1,31 +1,39 @@
-import { fetchProducts } from "./services/getProducts";
-import { Product } from "./types/Product";
-import { createProductCard } from "./components/createProductCard";
-import { closeFilterMobile, initFilters, openFilterMobile } from "./ui/filter";
+import {
+  loadProducts,
+  shouldReloadProducts,
+  loadMore
+} from "./core/productController";
+import { openFilterMobile, closeFilterMobile, initFilters } from "./ui/filter";
 
-
-const loadWindowFunctions = () => {
+function exposeWindowFunctions() {
   window.openFilterMobile = openFilterMobile;
   window.closeFilterMobile = closeFilterMobile;
+}
+
+function setupResizeHandler(container: HTMLElement) {
+  window.addEventListener("resize", async () => {
+    if (shouldReloadProducts()) {
+      await loadProducts(container, true);
+    }
+  });
+}
+
+function setupLoadMore(container: HTMLElement) {
+  const btn = document.getElementById("load-more");
+  if (btn) {
+    btn.addEventListener("click", () => loadMore(container));
+  }
 }
 
 async function main() {
   const container = document.getElementById("products");
   if (!container) return;
 
-  loadWindowFunctions();
-
-  try {
-    const products: Product[] = await fetchProducts();
-    products.forEach(product => {
-      const card = createProductCard(product);
-      container.appendChild(card);
-    });
-
-    initFilters();
-  } catch (err) {
-    console.error("Erro ao carregar produtos:", err);
-  }
+  exposeWindowFunctions();
+  await loadProducts(container, true);
+  initFilters();
+  setupResizeHandler(container);
+  setupLoadMore(container);
 }
 
 document.addEventListener("DOMContentLoaded", main);
