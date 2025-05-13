@@ -261,7 +261,98 @@ main {
   }
 }
 
+.product-gallery {
+  margin: 34px 16px 40px;
+  display: grid;
+  grid-template-columns: repeat(2, 1fr);
+  gap: 20px;
+
+  @media (min-width: 768px) {
+    grid-template-columns: repeat(3, 1fr);
+  }
+
+  .product-card {
+    width: 100%;
+    max-width: 162px;
+    height: 100%;
+    max-height: 357px;
+
+    @media (min-width: 768px) {
+      max-width: 195px;
+      max-height: 426px;
+    }
+
+    .product-image {
+      width: 100%;
+    }
+
+    .product-name {
+      font-family: $font-primary;
+      font-weight: 400;
+      font-size: 14px;
+      text-align: center;
+      line-height: 100%;
+      text-transform: uppercase;
+      color: $black;
+      margin-top: 8px;
+    }
+
+    .product-price {
+      font-family: $font-primary;
+      font-weight: 700;
+      font-size: 14px;
+      text-align: center;
+      line-height: 100%;
+      color: $black;
+      margin-top: 8px;
+    }
+
+    .product-installment {
+      font-family: $font-primary;
+      font-weight: 400;
+      font-size: 14px;
+      text-align: center;
+      line-height: 100%;
+      color: $gray;
+    }
+  }
+}
+
+.add-to-cart-button {
+  font-family: $font-primary;
+  font-weight: 700;
+  font-size: 14px;
+  line-height: 100%;
+  text-transform: uppercase;
+  background-color: $black;
+  color: $white;
+  height: 33px;
+  width: 100%;
+  border: none;
+  margin-top: 11px;
+}
+
+.load-more {
+  width: 175px;
+  height: 35px;
+  padding: 8px 31px;
+  background-color: $orange;
+  border: none;
+  color: $white;
+  font-family: $font-primary;
+  font-weight: 700;
+  font-size: 14px;
+  line-height: 100%;
+  text-transform: uppercase;
+  margin-bottom: 42px;
+
+  @media screen and (min-width: 768px) {
+    margin-bottom: 35px;
+  }
+}
+
 footer {
+  width: 100%;
   display: flex;
   justify-content: center;
   align-items: center;
