@@ -16,16 +16,35 @@ body.panel-open {
   height: 64px;
 
   &-content {
-    border-bottom: 1px solid $light-gray;
     display: flex;
     justify-content: space-between;
     align-items: center;
     padding: 0 25.75px 0 35px;
     height: 64px;
+    max-width: 1180px;
+    margin: 0 auto;
+  }
+}
+
+.container-mobile {
+  @media screen and (min-width: 1024px) {
+    display: none;
   }
 }
 
 main {
+  border-top: 1px solid $light-gray;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  padding: 0 16px;
+
+  @media screen and (min-width: 1024px) {
+    flex-direction: row;
+    align-items: flex-start;
+    justify-content: center;
+  }
+
   .page-tittle {
     font-family: $font-primary;
     font-weight: 400;
@@ -35,11 +54,6 @@ main {
     margin: 24px 0 12px;
     text-align: center;
   }
-
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-  padding: 0 16px;
 
   .nav-filter {
     border: 1px solid $gray;
@@ -332,6 +346,12 @@ main {
   margin-top: 11px;
 }
 
+.products-container {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+}
+
 .load-more {
   width: 175px;
   height: 35px;
@@ -344,7 +364,7 @@ main {
   font-size: 14px;
   line-height: 100%;
   text-transform: uppercase;
-  margin-bottom: 42px;
+  margin: 0 auto 42px;
 
   @media screen and (min-width: 768px) {
     margin-bottom: 35px;
