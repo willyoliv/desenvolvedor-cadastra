@@ -1,3 +1,5 @@
+import { formatCurrency } from "../components/createProductCard";
+
 export function addToCart(product: Product) {
   const orderForm = window.orderForm || { items: [] };
 
@@ -28,7 +30,7 @@ export function closeMinicart(): void {
 }
 
 function renderMinicartItems(orderForm: OrderForm): void {
-  const container = document.getElementById("minicartContent");
+  const container = document.getElementById("minicart__items");
 
   if (!container) return;
 
@@ -37,13 +39,13 @@ function renderMinicartItems(orderForm: OrderForm): void {
 
   items.forEach(item => {
     const itemEl = document.createElement("div");
-    itemEl.className = "minicart-item";
+    itemEl.className = "minicart__item";
     itemEl.innerHTML = `
-      <img src="${item.product.image}" alt="${item.product.name}" class="minicart-item__image" />
-      <div class="minicart-item__info">
-        <h4>${item.product.name}</h4>
-        <p>Quantidade: ${item.quantity}</p>
-        <p>Preço: ${item.product.price}</p>
+      <img src="${item.product.image}" alt="${item.product.name}" class="minicart__item-image" />
+      <div class="minicart__item-info">
+        <h4 class="minicart__item-name">${item.product.name}</h4>
+        <p class="minicart__item-quantity">Quantidade: ${item.quantity}</p>
+        <p class="minicart__item-price">Preço: ${formatCurrency(item.product.price)}</p>
       </div>
     `;
     container.appendChild(itemEl);

@@ -1,6 +1,6 @@
 import { addToCart, openMinicart } from "../core/cartController";
 
-const formatCurrency = (value: number) =>
+export const formatCurrency = (value: number) =>
     new Intl.NumberFormat('pt-BR', { style: 'currency', currency: 'BRL' }).format(value);
 
 
