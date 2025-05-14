@@ -7,6 +7,15 @@
   margin: 0;
 }
 
+html,
+body {
+  height: 100%;
+  margin: 0;
+  padding: 0;
+  display: flex;
+  flex-direction: column;
+}
+
 body.panel-open {
   overflow: hidden;
 }
@@ -44,6 +53,7 @@ body.panel-open {
     justify-content: space-between;
     max-width: 1180px;
     margin: 40px auto 54px;
+    width: 100%;
   }
 }
 
@@ -73,6 +83,7 @@ main {
   flex-direction: column;
   align-items: center;
   padding: 0 16px;
+  flex: 1;
 
   @media screen and (min-width: 1024px) {
     flex-direction: row;
@@ -81,6 +92,7 @@ main {
     max-width: 1180px;
     margin: 0 auto;
     padding: 0;
+    width: 100%;
   }
 
   .nav-filter {
@@ -505,6 +517,7 @@ main {
 }
 
 footer {
+  flex-shrink: 0;
   width: 100%;
   display: flex;
   justify-content: center;

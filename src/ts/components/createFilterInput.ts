@@ -1,3 +1,5 @@
+import { loadProducts } from "../core/productController";
+
 const colors = [
   "Amarelo", "Azul", "Branco", "Cinza", "Laranja",
   "Verde", "Vermelho", "Preto", "Rosa", "Vinho"
@@ -6,11 +8,11 @@ const colors = [
 const sizes = ["P", "M", "G", "GG", "U", "36", "38", "40"];
 
 const priceRanges = [
-  "de R$0 até R$50",
-  "de R$51 até R$150",
-  "de R$151 até R$300",
-  "de R$301 até R$500",
-  "a partir de R$ 500"
+  { label: "de R$0 até R$50", value: "0-50" },
+  { label: "de R$51 até R$150", value: "51-150" },
+  { label: "de R$151 até R$300", value: "151-300" },
+  { label: "de R$301 até R$500", value: "301-500" },
+  { label: "a partir de R$ 500", value: "500-" }
 ];
 
 const labels = {
@@ -41,7 +43,7 @@ export function createFilters(): void {
 
 function createMobileFilterGroup(
   title: string,
-  items: string[],
+  items: (string | { label: string, value: string })[],
   type: FilterInputType
 ): HTMLDivElement {
   const group = document.createElement('div');
@@ -62,7 +64,7 @@ function createMobileFilterGroup(
 
 function createDesktopFilterGroup(
   title: string,
-  items: string[],
+  items: (string | { label: string, value: string })[],
   type: FilterInputType
 ): HTMLDivElement {
   const group = document.createElement('div');
@@ -98,7 +100,11 @@ function createToggleButton(title: string, type: FilterInputType): HTMLButtonEle
   return button;
 }
 
-function createOptionsContainer(items: string[], title: string, type: FilterInputType): HTMLDivElement {
+function createOptionsContainer(
+  items: (string | { label: string, value: string })[],
+  title: string,
+  type: FilterInputType
+): HTMLDivElement {
   const isMobile = window.innerWidth < 1024;
   const container = document.createElement('div');
   container.className = 'filter-options';
@@ -118,53 +124,55 @@ function createOptionsContainer(items: string[], title: string, type: FilterInpu
       const label = document.createElement('label');
       label.className = 'custom-checkbox';
 
+      const isObject = typeof item === 'object';
+      const itemLabel = isObject ? item.label : item;
+      const itemValue = isObject ? item.value : item;
+
       const input = document.createElement('input');
       input.type = 'checkbox';
       input.name = title.toLowerCase();
-      input.value = item;
+      input.value = itemValue;
 
       if (key) {
         const selectedValue = window.selectedFilters[key];
-
         if (Array.isArray(selectedValue)) {
-          input.checked = selectedValue.includes(item);
+          input.checked = selectedValue.includes(itemValue);
         } else {
-          input.checked = selectedValue === item;
+          input.checked = selectedValue === itemValue;
         }
       }
 
       const checkmark = document.createElement('span');
       checkmark.className = 'checkmark';
-
-      const text = document.createTextNode(` ${item}`);
+      const text = document.createTextNode(` ${itemLabel}`);
 
       if (title === labels.priceRanges) {
         input.addEventListener("change", () => {
-          if (input.checked) {
-            const all = document.querySelectorAll(`input[name="${input.name}"]`);
-            all.forEach(el => {
-              if (el !== input) (el as HTMLInputElement).checked = false;
-            });
+          const all = document.querySelectorAll(`input[name="${input.name}"]`);
+          all.forEach(el => {
+            if (el !== input) (el as HTMLInputElement).checked = false;
+          });
 
-            if (!isMobile) {
-              window.selectedFilters.priceRanges = input.value;
-            }
-          } else {
-            if (!isMobile) {
-              window.selectedFilters.priceRanges = "";
-            }
+          if (!isMobile) {
+            window.selectedFilters.priceRanges = input.checked ? input.value : "";
+
+            const container = document.getElementById("products");
+            if (container) loadProducts(container, true);
           }
         });
       } else if (!isMobile && key === 'colors') {
         input.addEventListener("change", () => {
           if (input.checked) {
-            window.selectedFilters.colors.push(item);
+            window.selectedFilters.colors.push(itemValue);
           } else {
-            const index = window.selectedFilters.colors.indexOf(item);
+            const index = window.selectedFilters.colors.indexOf(itemValue);
             if (index > -1) {
               window.selectedFilters.colors.splice(index, 1);
             }
           }
+
+          const container = document.getElementById("products");
+          if (container) loadProducts(container, true);
         });
       }
 
@@ -175,7 +183,7 @@ function createOptionsContainer(items: string[], title: string, type: FilterInpu
     });
 
   } else {
-    items.forEach(item => {
+    (items as string[]).forEach(item => {
       const button = document.createElement('button');
       button.className = 'size-box';
       button.textContent = item;
@@ -189,13 +197,16 @@ function createOptionsContainer(items: string[], title: string, type: FilterInpu
         button.classList.toggle('selected');
 
         if (!isMobile) {
-          const sizes = window.selectedFilters.sizes.findIndex(size => size === item);
+          const index = window.selectedFilters.sizes.indexOf(item);
 
-          if (sizes === -1) {
+          if (index === -1) {
             window.selectedFilters.sizes.push(item);
           } else {
-            window.selectedFilters.sizes.splice(sizes, 1);
+            window.selectedFilters.sizes.splice(index, 1);
           }
+
+          const container = document.getElementById("products");
+          if (container) loadProducts(container, true);
         }
       };
 
@@ -205,7 +216,6 @@ function createOptionsContainer(items: string[], title: string, type: FilterInpu
 
   return container;
 }
-
 
 function toggleVisibility(button: HTMLButtonElement, type: FilterInputType): void {
   const container = button.nextElementSibling as HTMLElement;

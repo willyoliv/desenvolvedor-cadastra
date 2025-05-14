@@ -1,4 +1,5 @@
 import { createFilters } from "../components/createFilterInput";
+import { loadProducts } from "../core/productController";
 
 let currentIsMobile: boolean;
 
@@ -83,6 +84,9 @@ export function updateSelectedFilters(): void {
 
   window.selectedFilters = selectedFilters;
   closeFilterMobile();
+
+  const container = document.getElementById("products");
+  if (container) loadProducts(container, true);
 }
 
 export function clearSelectedFilters(): void {
@@ -110,6 +114,8 @@ export function clearSelectedFilters(): void {
   };
 
   closeFilterMobile();
+  const container = document.getElementById("products");
+  if (container) loadProducts(container, true);
 }
 
 export function revertUnappliedFilters(): void {
@@ -152,6 +158,8 @@ export function handleSortOptionClick(event: MouseEvent): void {
   }
 
   closeFilterMobile();
+  const container = document.getElementById("products");
+  if (container) loadProducts(container, true);
 }
 
 function syncOrderFilterDesktopWithMobile() {
@@ -179,6 +187,9 @@ export function setupOrderBySelectListener(): void {
 
   select.addEventListener('change', () => {
     window.selectedFilters.orderBy = select.value as SelectedFilters['orderBy'];
+    
+    const container = document.getElementById("products");
+    if (container) loadProducts(container, true);
     syncOrderFilterDesktopWithMobile();
   });
 }
