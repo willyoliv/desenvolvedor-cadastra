@@ -147,6 +147,10 @@ main {
 
     &.open {
       display: flex;
+
+      @media screen and (min-width: 1024px) {
+        display: none;
+      }
     }
 
     .panel-section {
@@ -174,6 +178,10 @@ main {
             font-size: 22px;
             line-height: 100%;
             color: $black;
+
+            &.selected {
+              color: $orange;
+            }
           }
         }
       }

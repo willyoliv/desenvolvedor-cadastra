@@ -1,5 +1,3 @@
-type FilterType = "checkbox" | "button";
-
 const colors = [
   "Amarelo", "Azul", "Branco", "Cinza", "Laranja",
   "Verde", "Vermelho", "Preto", "Rosa", "Vinho"
@@ -15,6 +13,12 @@ const priceRanges = [
   "a partir de R$ 500"
 ];
 
+const labels = {
+  colors: "CORES",
+  sizes: "TAMANHOS",
+  priceRanges: "FAIXA DE PREÇO"
+};
+
 export function createFilters(): void {
   const isMobile = window.innerWidth < 1024;
 
@@ -22,26 +26,30 @@ export function createFilters(): void {
     const container = document.getElementById('filterOptions');
     if (!container) return;
 
-    container.appendChild(createMobileFilterGroup("CORES", colors, "checkbox"));
-    container.appendChild(createMobileFilterGroup("TAMANHOS", sizes, "button"));
-    container.appendChild(createMobileFilterGroup("FAIXA DE PREÇO", priceRanges, "checkbox"));
+    container.appendChild(createMobileFilterGroup(labels.colors, colors, "checkbox"));
+    container.appendChild(createMobileFilterGroup(labels.sizes, sizes, "button"));
+    container.appendChild(createMobileFilterGroup(labels.priceRanges, priceRanges, "checkbox"));
   } else {
     const container = document.getElementById('filterOptionsDesktop');
     if (!container) return;
 
-    container.appendChild(createDesktopFilterGroup("CORES", colors, "checkbox"));
-    container.appendChild(createDesktopFilterGroup("TAMANHOS", sizes, "button"));
-    container.appendChild(createDesktopFilterGroup("FAIXA DE PREÇO", priceRanges, "checkbox"));
+    container.appendChild(createDesktopFilterGroup(labels.colors, colors, "checkbox"));
+    container.appendChild(createDesktopFilterGroup(labels.sizes, sizes, "button"));
+    container.appendChild(createDesktopFilterGroup(labels.priceRanges, priceRanges, "checkbox"));
   }
 }
 
 function createMobileFilterGroup(
   title: string,
   items: string[],
-  type: FilterType
+  type: FilterInputType
 ): HTMLDivElement {
   const group = document.createElement('div');
   group.classList.add('filter-group');
+
+  const groupClassType = title === labels.sizes ? "size-group" : title === labels.colors ? "color-group" : "price-group";
+
+  group.classList.add(groupClassType);
 
   const toggleButton = createToggleButton(title, type);
   const optionsContainer = createOptionsContainer(items, title, type);
@@ -55,10 +63,13 @@ function createMobileFilterGroup(
 function createDesktopFilterGroup(
   title: string,
   items: string[],
-  type: FilterType
+  type: FilterInputType
 ): HTMLDivElement {
   const group = document.createElement('div');
   group.classList.add('filter-group');
+
+  const groupClassType = title === labels.sizes ? "size-group" : title === labels.colors ? "color-group" : "price-group";
+  group.classList.add(groupClassType);
 
   const heading = document.createElement('h3');
   heading.className = 'filter-title';
@@ -73,7 +84,7 @@ function createDesktopFilterGroup(
   return group;
 }
 
-function createToggleButton(title: string, type: FilterType): HTMLButtonElement {
+function createToggleButton(title: string, type: FilterInputType): HTMLButtonElement {
   const button = document.createElement('button');
   button.className = 'filter-toggle';
   button.innerHTML = `
@@ -87,13 +98,20 @@ function createToggleButton(title: string, type: FilterType): HTMLButtonElement 
   return button;
 }
 
-function createOptionsContainer(items: string[], title: string, type: FilterType): HTMLDivElement {
+function createOptionsContainer(items: string[], title: string, type: FilterInputType): HTMLDivElement {
+  const isMobile = window.innerWidth < 1024;
   const container = document.createElement('div');
   container.className = 'filter-options';
 
-  if (title === "TAMANHOS") {
+  if (title === labels.sizes) {
     container.classList.add("size-options");
   }
+
+  const key =
+    title === labels.colors ? 'colors' :
+    title === labels.sizes ? 'sizes' :
+    title === labels.priceRanges ? 'priceRanges' :
+    '';
 
   if (type === 'checkbox') {
     items.forEach(item => {
@@ -105,22 +123,82 @@ function createOptionsContainer(items: string[], title: string, type: FilterType
       input.name = title.toLowerCase();
       input.value = item;
 
+      if (key) {
+        const selectedValue = window.selectedFilters[key];
+
+        if (Array.isArray(selectedValue)) {
+          input.checked = selectedValue.includes(item);
+        } else {
+          input.checked = selectedValue === item;
+        }
+      }
+
       const checkmark = document.createElement('span');
       checkmark.className = 'checkmark';
 
       const text = document.createTextNode(` ${item}`);
+
+      if (title === labels.priceRanges) {
+        input.addEventListener("change", () => {
+          if (input.checked) {
+            const all = document.querySelectorAll(`input[name="${input.name}"]`);
+            all.forEach(el => {
+              if (el !== input) (el as HTMLInputElement).checked = false;
+            });
+
+            if (!isMobile) {
+              window.selectedFilters.priceRanges = input.value;
+            }
+          } else {
+            if (!isMobile) {
+              window.selectedFilters.priceRanges = "";
+            }
+          }
+        });
+      } else if (!isMobile && key === 'colors') {
+        input.addEventListener("change", () => {
+          if (input.checked) {
+            window.selectedFilters.colors.push(item);
+          } else {
+            const index = window.selectedFilters.colors.indexOf(item);
+            if (index > -1) {
+              window.selectedFilters.colors.splice(index, 1);
+            }
+          }
+        });
+      }
 
       label.appendChild(input);
       label.appendChild(checkmark);
       label.appendChild(text);
       container.appendChild(label);
     });
+
   } else {
     items.forEach(item => {
       const button = document.createElement('button');
       button.className = 'size-box';
       button.textContent = item;
-      button.onclick = () => button.classList.toggle('selected');
+      button.dataset.size = item;
+
+      if (window.selectedFilters.sizes.includes(item)) {
+        button.classList.add('selected');
+      }
+
+      button.onclick = () => {
+        button.classList.toggle('selected');
+
+        if (!isMobile) {
+          const sizes = window.selectedFilters.sizes.findIndex(size => size === item);
+
+          if (sizes === -1) {
+            window.selectedFilters.sizes.push(item);
+          } else {
+            window.selectedFilters.sizes.splice(sizes, 1);
+          }
+        }
+      };
+
       container.appendChild(button);
     });
   }
@@ -128,7 +206,8 @@ function createOptionsContainer(items: string[], title: string, type: FilterType
   return container;
 }
 
-function toggleVisibility(button: HTMLButtonElement, type: FilterType): void {
+
+function toggleVisibility(button: HTMLButtonElement, type: FilterInputType): void {
   const container = button.nextElementSibling as HTMLElement;
   const icon = button.querySelector('.arrow-icon') as SVGElement;
 

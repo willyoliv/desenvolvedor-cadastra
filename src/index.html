@@ -86,17 +86,22 @@
           <div id="filterOptions">
           </div>
           <div class="filter-actions">
-            <button class="filter-button-option btn-primary" id="applyFilters">Aplicar</button>
-            <button class="filter-button-option btn-secondary" id="clearFilters">Limpar</button>
+            <button class="filter-button-option btn-primary" id="applyFilters"
+              onclick="updateSelectedFilters()">Aplicar</button>
+            <button class="filter-button-option btn-secondary" id="clearFilters"
+              onclick="clearSelectedFilters()">Limpar</button>
           </div>
         </section>
 
         <section id="sortSection" class="panel-section sort-section">
           <h2 class="filter-panel__title">Ordenar</h2>
           <div class="sort-options">
-            <button class="sort-button-option">Mais recente</button>
-            <button class="sort-button-option">Maior preço</button>
-            <button class="sort-button-option">Menor preço</button>
+            <button class="sort-button-option" onclick="handleSortOptionClick(event, this)"
+              data-order="most-recent">Mais recente</button>
+            <button class="sort-button-option" onclick="handleSortOptionClick(event, this)"
+              data-order="lower-price">Maior preço</button>
+            <button class="sort-button-option" onclick="handleSortOptionClick(event, this)"
+              data-order="higher-price">Menor preço</button>
           </div>
         </section>
       </div>
