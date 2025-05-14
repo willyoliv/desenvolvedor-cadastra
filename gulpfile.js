@@ -82,8 +82,25 @@ function html() {
   return src(paths.html.src).pipe(browserSync.stream()).pipe(dest(paths.dest));
 }
 
-function img() {
-  return src(paths.img.src).pipe(dest(paths.dest + "/img"));
+async function img() {
+  const imagemin = (await import("gulp-imagemin")).default;
+  const { gifsicle, mozjpeg, optipng, svgo } = await import("gulp-imagemin");
+
+  return src(paths.img.src)
+    .pipe(
+      imagemin([
+        gifsicle({ interlaced: true }),
+        mozjpeg({ quality: 75, progressive: true }),
+        optipng({ optimizationLevel: 5 }),
+        svgo({
+          plugins: [
+            { name: 'removeViewBox', active: true },
+            { name: 'cleanupIDs', active: false },
+          ]
+        })
+      ])
+    )
+    .pipe(dest(path.join(paths.dest, "img")));
 }
 
 const build = series(clean, parallel(styles, scripts, html, img));
