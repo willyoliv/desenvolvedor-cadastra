@@ -32,10 +32,12 @@ export function initFilters() {
 
   window.addEventListener('resize', () => {
     const isMobile = window.innerWidth < 1024;
+
     if (isMobile !== currentIsMobile) {
       currentIsMobile = isMobile;
       clearFiltersHTML();
       createFilters();
+      syncOrderFilterDesktopWithMobile();
     }
   });
 }
@@ -152,3 +154,31 @@ export function handleSortOptionClick(event: MouseEvent): void {
   closeFilterMobile();
 }
 
+function syncOrderFilterDesktopWithMobile() {
+  const select = document.querySelector<HTMLSelectElement>('.custom-select');
+  const buttons = document.querySelectorAll<HTMLButtonElement>('.sort-button-option');
+
+  if (select) {
+    select.value = window.selectedFilters.orderBy;
+  }
+
+  buttons.forEach(button => {
+    const order = button.dataset.order;
+    if (order === window.selectedFilters.orderBy) {
+      button.classList.add('selected');
+    } else {
+      button.classList.remove('selected');
+    }
+  });
+}
+
+
+export function setupOrderBySelectListener(): void {
+  const select = document.querySelector<HTMLSelectElement>('.custom-select');
+  if (!select) return;
+
+  select.addEventListener('change', () => {
+    window.selectedFilters.orderBy = select.value as SelectedFilters['orderBy'];
+    syncOrderFilterDesktopWithMobile();
+  });
+}

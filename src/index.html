@@ -52,10 +52,10 @@
     <h1 class="page-title">Blusas</h1>
     <div class="custom-select-wrapper">
       <select class="custom-select">
-        <option disabled>Ordenar por:</option>
-        <option value="recentes">Mais recentes</option>
-        <option value="menor">Menor preço</option>
-        <option value="maior">Maior preço</option>
+        <option value="none" disabled selected hidden>Ordenar por:</option>
+        <option value="most-recent">Mais recentes</option>
+        <option value="lower-price">Menor preço</option>
+        <option value="higher-price">Maior preço</option>
       </select>
     </div>
   </div>
@@ -64,7 +64,7 @@
     <div class="container-mobile">
       <h1 class="page-title">Blusas</h1>
       <nav class="nav-filter">
-        <button class="button-filter" onclick="openFilterMobile('filter')">Filtrar</button>
+        <button class="button-filter border-right" onclick="openFilterMobile('filter')">Filtrar</button>
         <button class="button-filter" onclick="openFilterMobile('sort')">Ordenar</button>
       </nav>
     </div>
@@ -99,9 +99,9 @@
             <button class="sort-button-option" onclick="handleSortOptionClick(event, this)"
               data-order="most-recent">Mais recente</button>
             <button class="sort-button-option" onclick="handleSortOptionClick(event, this)"
-              data-order="lower-price">Maior preço</button>
+              data-order="higher-price">Maior preço</button>
             <button class="sort-button-option" onclick="handleSortOptionClick(event, this)"
-              data-order="higher-price">Menor preço</button>
+              data-order="lower-price">Menor preço</button>
           </div>
         </section>
       </div>

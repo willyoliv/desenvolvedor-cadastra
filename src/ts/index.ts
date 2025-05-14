@@ -3,7 +3,7 @@ import {
   shouldReloadProducts,
   loadMore
 } from "./core/productController";
-import { openFilterMobile, closeFilterMobile, initFilters, updateSelectedFilters, clearSelectedFilters, handleSortOptionClick } from "./ui/filter";
+import { openFilterMobile, closeFilterMobile, initFilters, updateSelectedFilters, clearSelectedFilters, handleSortOptionClick, setupOrderBySelectListener } from "./ui/filter";
 
 function exposeWindowFunctions() {
   const selectedFilters: SelectedFilters = {
@@ -25,7 +25,7 @@ function exposeWindowFunctions() {
 function setupResizeHandler(container: HTMLElement) {
   window.addEventListener("resize", async () => {
     closeFilterMobile();
-    
+
     if (shouldReloadProducts()) {
       await loadProducts(container, true);
     }
@@ -48,6 +48,7 @@ async function main() {
   initFilters();
   setupResizeHandler(container);
   setupLoadMore(container);
+  setupOrderBySelectListener();
 }
 
 document.addEventListener("DOMContentLoaded", main);
