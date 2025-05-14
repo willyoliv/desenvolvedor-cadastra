@@ -5,4 +5,7 @@ interface Window {
   updateSelectedFilters: () => void;
   clearSelectedFilters: () => void;
   handleSortOptionClick: (event: MouseEvent) => void;
+  closeMinicart: () => void;
+  openMinicart: () => void;
+  orderForm: OrderForm;
 }

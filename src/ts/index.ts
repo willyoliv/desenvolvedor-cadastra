@@ -3,7 +3,8 @@ import {
   shouldReloadProducts,
   loadMore
 } from "./core/productController";
-import { openFilterMobile, closeFilterMobile, initFilters, updateSelectedFilters, clearSelectedFilters, handleSortOptionClick, setupOrderBySelectListener } from "./ui/filter";
+import { openFilterMobile, closeFilterMobile, initFilters, updateSelectedFilters, clearSelectedFilters, handleSortOptionClick, setupOrderBySelectListener } from "../ts/core/filterController";
+import { closeMinicart, openMinicart } from "./core/cartController";
 
 function exposeWindowFunctions() {
   const selectedFilters: SelectedFilters = {
@@ -19,7 +20,11 @@ function exposeWindowFunctions() {
   window.updateSelectedFilters = updateSelectedFilters;
   window.clearSelectedFilters = clearSelectedFilters;
   window.handleSortOptionClick = handleSortOptionClick;
-  
+  window.orderForm = {
+    items: [],
+  };
+  window.closeMinicart = closeMinicart;
+  window.openMinicart = openMinicart;
 }
 
 function setupResizeHandler(container: HTMLElement) {

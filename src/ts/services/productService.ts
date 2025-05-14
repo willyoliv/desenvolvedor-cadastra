@@ -1,5 +1,3 @@
-import { Product } from "../types/Product";
-
 const API_URL = "http://localhost:5000";
 
 export async function fetchProducts(

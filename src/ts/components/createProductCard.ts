@@ -1,4 +1,4 @@
-import { Product } from "../types/Product";
+import { addToCart, openMinicart } from "../core/cartController";
 
 const formatCurrency = (value: number) =>
     new Intl.NumberFormat('pt-BR', { style: 'currency', currency: 'BRL' }).format(value);
@@ -20,6 +20,11 @@ export function createProductCard(product: Product): HTMLElement {
     <p class="product-installment">até ${installments}x de ${formatCurrency(installmentValue)}</p>
     <button class="add-to-cart-button">COMPRAR</button>
   `;
+
+  card.addEventListener("click", () => {
+    addToCart(product);
+    openMinicart();
+  })
 
   return card;
 }

@@ -1,6 +1,5 @@
 import { fetchProducts } from "../services/productService";
 import { createProductCard } from "../components/createProductCard";
-import { Product } from "../types/Product";
 
 const DESKTOP_THRESHOLD = 1024;
 const MOBILE_PAGE_SIZE = 4;
