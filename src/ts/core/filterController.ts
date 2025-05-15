@@ -1,4 +1,4 @@
-import { createFilters } from "../components/createFilterInput";
+import { createFilters } from "../components/filterComponents";
 import { loadProducts } from "../core/productController";
 
 let currentIsMobile: boolean;

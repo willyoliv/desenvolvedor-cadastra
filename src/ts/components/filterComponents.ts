@@ -1,5 +1,20 @@
 import { loadProducts } from "../core/productController";
 
+type CheckboxOptionParams = {
+  item: string | { label: string; value: string };
+  title: string;
+  key: keyof SelectedFilters;
+  isMobile: boolean;
+};
+
+type CheckboxChangeParams = {
+  input: HTMLInputElement;
+  title: string;
+  key: keyof SelectedFilters;
+  value: string;
+  isMobile: boolean;
+};
+
 const colors = [
   "Amarelo", "Azul", "Branco", "Cinza", "Laranja",
   "Verde", "Vermelho", "Preto", "Rosa", "Vinho"
@@ -113,109 +128,133 @@ function createOptionsContainer(
     container.classList.add("size-options");
   }
 
-  const key =
-    title === labels.colors ? 'colors' :
-    title === labels.sizes ? 'sizes' :
-    title === labels.priceRanges ? 'priceRanges' :
-    '';
+  const key = getKeyFromTitle(title);
 
   if (type === 'checkbox') {
     items.forEach(item => {
-      const label = document.createElement('label');
-      label.className = 'custom-checkbox';
-
-      const isObject = typeof item === 'object';
-      const itemLabel = isObject ? item.label : item;
-      const itemValue = isObject ? item.value : item;
-
-      const input = document.createElement('input');
-      input.type = 'checkbox';
-      input.name = title.toLowerCase();
-      input.value = itemValue;
-
-      if (key) {
-        const selectedValue = window.selectedFilters[key];
-        if (Array.isArray(selectedValue)) {
-          input.checked = selectedValue.includes(itemValue);
-        } else {
-          input.checked = selectedValue === itemValue;
-        }
-      }
-
-      const checkmark = document.createElement('span');
-      checkmark.className = 'checkmark';
-      const text = document.createTextNode(` ${itemLabel}`);
-
-      if (title === labels.priceRanges) {
-        input.addEventListener("change", () => {
-          const all = document.querySelectorAll(`input[name="${input.name}"]`);
-          all.forEach(el => {
-            if (el !== input) (el as HTMLInputElement).checked = false;
-          });
-
-          if (!isMobile) {
-            window.selectedFilters.priceRanges = input.checked ? input.value : "";
-
-            const container = document.getElementById("products");
-            if (container) loadProducts(container, true);
-          }
-        });
-      } else if (!isMobile && key === 'colors') {
-        input.addEventListener("change", () => {
-          if (input.checked) {
-            window.selectedFilters.colors.push(itemValue);
-          } else {
-            const index = window.selectedFilters.colors.indexOf(itemValue);
-            if (index > -1) {
-              window.selectedFilters.colors.splice(index, 1);
-            }
-          }
-
-          const container = document.getElementById("products");
-          if (container) loadProducts(container, true);
-        });
-      }
-
-      label.appendChild(input);
-      label.appendChild(checkmark);
-      label.appendChild(text);
-      container.appendChild(label);
+      const labelEl = createCheckboxOption({item, title, key, isMobile});
+      container.appendChild(labelEl);
     });
-
   } else {
     (items as string[]).forEach(item => {
-      const button = document.createElement('button');
-      button.className = 'size-box';
-      button.textContent = item;
-      button.dataset.size = item;
-
-      if (window.selectedFilters.sizes.includes(item)) {
-        button.classList.add('selected');
-      }
-
-      button.onclick = () => {
-        button.classList.toggle('selected');
-
-        if (!isMobile) {
-          const index = window.selectedFilters.sizes.indexOf(item);
-
-          if (index === -1) {
-            window.selectedFilters.sizes.push(item);
-          } else {
-            window.selectedFilters.sizes.splice(index, 1);
-          }
-
-          const container = document.getElementById("products");
-          if (container) loadProducts(container, true);
-        }
-      };
-
+      const button = createSizeButton(item, isMobile);
       container.appendChild(button);
     });
   }
 
   return container;
 }
+
+function getKeyFromTitle(title: string): keyof SelectedFilters  {
+  if (title === labels.colors) return 'colors';
+  if (title === labels.sizes) return 'sizes';
+
+  return 'priceRanges';
+}
+
+function createCheckboxOption(
+  { item, title, key, isMobile }: CheckboxOptionParams
+): HTMLLabelElement {
+  const isObject = typeof item === 'object';
+  const itemLabel = isObject ? item.label : item;
+  const itemValue = isObject ? item.value : item;
+
+  const label = document.createElement('label');
+  label.className = 'custom-checkbox';
+
+  const input = document.createElement('input');
+  input.type = 'checkbox';
+  input.name = title.toLowerCase();
+  input.value = itemValue;
+
+  markInputAsSelected(input, key, itemValue);
+
+  const checkmark = document.createElement('span');
+  checkmark.className = 'checkmark';
+  const text = document.createTextNode(` ${itemLabel}`);
+
+  handleCheckboxChange({input, title, key, value: itemValue, isMobile});
+
+  label.appendChild(input);
+  label.appendChild(checkmark);
+  label.appendChild(text);
+  return label;
+}
+
+function markInputAsSelected(input: HTMLInputElement, key: keyof SelectedFilters, value: string) {
+  const selectedValue = window.selectedFilters[key];
+  if (Array.isArray(selectedValue)) {
+    input.checked = selectedValue.includes(value);
+  } else {
+    input.checked = selectedValue === value;
+  }
+}
+
+function handleCheckboxChange(
+  { input, title, key, value, isMobile }: CheckboxChangeParams
+) {
+  if (title === labels.priceRanges) {
+    input.addEventListener("change", () => {
+      document.querySelectorAll(`input[name="${input.name}"]`)
+        .forEach(el => {
+          if (el !== input) (el as HTMLInputElement).checked = false;
+        });
+
+      if (!isMobile) {
+        window.selectedFilters.priceRanges = input.checked ? input.value : "";
+        reloadProducts();
+      }
+    });
+  } else if (!isMobile && key === 'colors') {
+    input.addEventListener("change", () => {
+      const colors = window.selectedFilters.colors;
+      if (input.checked) {
+        colors.push(value);
+      } else {
+        const index = colors.indexOf(value);
+        if (index > -1) colors.splice(index, 1);
+      }
+
+      reloadProducts();
+    });
+  }
+}
+
+function createSizeButton(item: string, isMobile: boolean): HTMLButtonElement {
+  const button = document.createElement('button');
+  button.className = 'size-box';
+  button.textContent = item;
+  button.dataset.size = item;
+
+  if (window.selectedFilters.sizes.includes(item)) {
+    button.classList.add('selected');
+  }
+
+  button.onclick = () => {
+    button.classList.toggle('selected');
+
+    if (!isMobile) {
+      const sizes = window.selectedFilters.sizes;
+      const index = sizes.indexOf(item);
+
+      if (index === -1) {
+        sizes.push(item);
+      } else {
+        sizes.splice(index, 1);
+      }
+
+      reloadProducts();
+    }
+  };
+
+  return button;
+}
+
+function reloadProducts() {
+  const container = document.getElementById("products");
+  if (container) loadProducts(container, true);
+}
+
 
 function toggleVisibility(button: HTMLButtonElement, type: FilterInputType): void {
   const container = button.nextElementSibling as HTMLElement;

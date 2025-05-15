@@ -1,4 +1,4 @@
-import { formatCurrency } from "../components/createProductCard";
+import { createCartItem } from "../components/minicartComponents";
 
 export function addToCart(product: Product) {
   const orderForm = window.orderForm || { items: [] };
@@ -37,17 +37,9 @@ function renderMinicartItems(orderForm: OrderForm): void {
   container.innerHTML = "";
   const items = orderForm.items || [];
 
-  items.forEach(item => {
-    const itemEl = document.createElement("div");
-    itemEl.className = "minicart__item";
-    itemEl.innerHTML = `
-      <img src="${item.product.image}" alt="${item.product.name}" class="minicart__item-image" />
-      <div class="minicart__item-info">
-        <h4 class="minicart__item-name">${item.product.name}</h4>
-        <p class="minicart__item-quantity">Quantidade: ${item.quantity}</p>
-        <p class="minicart__item-price">Preço: ${formatCurrency(item.product.price)}</p>
-      </div>
-    `;
-    container.appendChild(itemEl);
+  items.forEach(cartItem => {
+    const cartItemElement = createCartItem(cartItem);
+
+    container.appendChild(cartItemElement);
   });
 }
