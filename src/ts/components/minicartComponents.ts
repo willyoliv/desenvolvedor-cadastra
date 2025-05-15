@@ -14,3 +14,10 @@ export function createCartItem(cartItem: CartItem): HTMLDivElement {
 
   return itemEl;
 }
+
+export function badgeCartItemCount(count: number): void {
+  const cartItemCount = document.getElementById("cart-badge");
+  if (cartItemCount) {
+    cartItemCount.textContent = count.toString();
+  }
+}

@@ -1,4 +1,4 @@
-import { createCartItem } from "../components/minicartComponents";
+import { badgeCartItemCount, createCartItem } from "../components/minicartComponents";
 
 export function addToCart(product: Product) {
   const orderForm = window.orderForm || { items: [] };
@@ -8,6 +8,7 @@ export function addToCart(product: Product) {
     orderForm.items[existingItemIndex].quantity += 1;
   } else {
     orderForm.items.push({ product, quantity: 1 });
+    badgeCartItemCount(orderForm.items.length);
   }
 }
 

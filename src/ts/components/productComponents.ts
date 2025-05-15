@@ -21,10 +21,16 @@ export function createProductCard(product: Product): HTMLElement {
     <button class="add-to-cart-button">COMPRAR</button>
   `;
 
-  card.addEventListener("click", () => {
-    addToCart(product);
-    openMinicart();
-  })
+  const button = card.querySelector(".add-to-cart-button") as HTMLButtonElement;
+
+  if (button) {
+    button.addEventListener("click", (event) => {
+      event.stopPropagation();
+
+      addToCart(product);
+      openMinicart();
+    })
+  }
 
   return card;
 }
