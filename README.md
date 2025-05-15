@@ -1,3 +1,26 @@
+# Informações para contato
+Email: willyoliversilva@gmail.com
+
+## Funcionalidades entregues
+Entreguei as seguintes funcionalidades no projeto proposto para a vaga:
+
+- HTML5 e CSS3
+- TypeScript com foco em clean code
+- Requisição à API para obtenção dos produtos
+- Funcionalidade de filtro por cor, tamanho e faixa de preço
+- Funcionalidade de adicionar produto ao carrinho
+- Funcionalidade de carregar mais produtos
+- Layout responsivo, sem uso de frameworks como Bootstrap, Foundation CSS ou Semantic UI
+
+Além das funcionalidades obrigatórias, também concluí as etapas bônus:
+
+- Uso de TypeScript em todo o projeto, priorizando organização e legibilidade do código
+- Otimização das imagens através de um processo automatizado com Gulp, contribuindo para melhor performance
+
+Também foi necessário realizar um pequeno ajuste no script `start` presente no `package.json` para garantir o correto funcionamento do ambiente de desenvolvimento.
+Obs: Utilizei a versão do Node 20.11.1
+
+
 # Venha ser um desenvolvedor da Cadastra
 
 Olá! Somos a Cadastra, uma Next-Gen Company que oferece soluções globais em marketing, tecnologia, estratégia de negócios, commerce, dados e analytics. Este desafio é voltado para o nosso Centro de Excelência (COE) de Commerce, especializado em implantação, migração, evolução e otimização de e-commerce.  Contamos com escritórios em 5 países, mas num formato de trabalho 100% home office.
