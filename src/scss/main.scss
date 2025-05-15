@@ -1,12 +1,6 @@
 @import "reset";
 @import "variables";
 
-* {
-  box-sizing: border-box;
-  padding: 0;
-  margin: 0;
-}
-
 html,
 body {
   height: 100%;
@@ -28,12 +22,12 @@ body.panel-open {
     display: flex;
     justify-content: space-between;
     align-items: center;
-    padding: 0 25.75px 0 35px;
+    padding: $padding-header-mobile;
     height: 64px;
     max-width: 1180px;
-    margin: 0 auto;
+    margin: $margin-horizontal-auto;
 
-    @media screen and (min-width: 1024px) {
+    @media screen and (min-width: $bp-desktop) {
       padding: 0;
     }
 
@@ -59,15 +53,15 @@ body.panel-open {
         bottom: 3px;
         right: 1px;
         color: $white;
-        font-size: 10px;
-        border-radius: 50px;
+        font-size: $font-xs;
+        border-radius: $border-radius-circle;
       }
     }
   }
 }
 
 .container-mobile {
-  @media screen and (min-width: 1024px) {
+  @media screen and (min-width: $bp-desktop) {
     display: none;
   }
 }
@@ -75,7 +69,7 @@ body.panel-open {
 .container-desktop {
   display: none;
 
-  @media screen and (min-width: 1024px) {
+  @media screen and (min-width: $bp-desktop) {
     display: flex;
     justify-content: space-between;
     max-width: 1180px;
@@ -93,14 +87,14 @@ body.panel-open {
 
 .page-title {
   font-family: $font-primary;
-  font-weight: 400;
-  font-size: 32px;
-  line-height: 100%;
+  font-weight: $font-regular;
+  font-size: $font-xxxl;
+  line-height: $line-height-base;
   color: $dark-gray;
   margin: 24px 0 12px;
   text-align: center;
 
-  @media screen and (min-width: 1024px) {
+  @media screen and (min-width: $bp-desktop) {
     text-align: left;
     margin: 0;
   }
@@ -110,15 +104,15 @@ main {
   display: flex;
   flex-direction: column;
   align-items: center;
-  padding: 0 16px;
+  padding: $padding-horizontal-mobile;
   flex: 1;
 
-  @media screen and (min-width: 1024px) {
+  @media screen and (min-width: $bp-desktop) {
     flex-direction: row;
     align-items: flex-start;
     justify-content: space-between;
     max-width: 1180px;
-    margin: 0 auto;
+    margin: $margin-horizontal-auto;
     padding: 0;
     width: 100%;
   }
@@ -135,9 +129,9 @@ main {
       border: none;
       width: 100%;
       font-family: $font-primary;
-      font-weight: 400;
-      font-size: 24px;
-      line-height: 100%;
+      font-weight: $font-regular;
+      font-size: $font-xl;
+      line-height: $line-height-base;
       color: $gray;
 
       &.border-right {
@@ -154,7 +148,7 @@ main {
     background-color: $white;
     display: none;
     flex-direction: column;
-    z-index: 1000;
+    z-index: $z-overlay;
     overflow-y: auto;
 
     .close-button {
@@ -174,16 +168,16 @@ main {
     }
 
     &__content {
-      padding-bottom: 88px;
+      padding-bottom: $padding-bottom-panel;
     }
 
     &__title {
-      padding: 16px;
+      padding: $padding-base;
       border-bottom: 1px solid $gray;
       font-family: $font-primary;
-      font-weight: 400;
-      font-size: 28px;
-      line-height: 100%;
+      font-weight: $font-regular;
+      font-size: $font-xxl;
+      line-height: $line-height-base;
       letter-spacing: 0%;
       text-transform: uppercase;
       color: $gray;
@@ -192,7 +186,7 @@ main {
     &.open {
       display: flex;
 
-      @media screen and (min-width: 1024px) {
+      @media screen and (min-width: $bp-desktop) {
         display: none;
       }
     }
@@ -207,10 +201,10 @@ main {
       &.sort-section {
         .sort-options {
           width: 100%;
-          padding: 30px 16px 0;
+          padding: $padding-sort-options;
           display: flex;
           flex-direction: column;
-          row-gap: 30px;
+          row-gap: $gap-large;
 
           .sort-button-option {
             background-color: transparent;
@@ -218,9 +212,9 @@ main {
             cursor: pointer;
             text-align: left;
             font-family: $font-primary;
-            font-weight: 400;
-            font-size: 22px;
-            line-height: 100%;
+            font-weight: $font-regular;
+            font-size: $font-lg;
+            line-height: $line-height-base;
             color: $black;
 
             &.selected {
@@ -239,12 +233,12 @@ main {
     padding: 24px 16px 0;
 
     &:first-child {
-      @media screen and (min-width: 1024px) {
+      @media screen and (min-width: $bp-desktop) {
         padding-top: 0;
       }
     }
 
-    @media screen and (min-width: 1024px) {
+    @media screen and (min-width: $bp-desktop) {
       padding-inline: 0;
     }
 
@@ -257,39 +251,39 @@ main {
       justify-content: space-between;
       align-items: center;
       font-family: $font-primary;
-      font-weight: 400;
-      font-size: 24px;
+      font-weight: $font-regular;
+      font-size: $font-xl;
       color: $gray;
       padding: 0;
     }
 
     .filter-title {
       font-family: $font-primary;
-      font-weight: 400;
-      font-size: 16px;
-      line-height: 100%;
+      font-weight: $font-regular;
+      font-size: $font-md;
+      line-height: $line-height-base;
       text-transform: uppercase;
       color: $dark-gray;
     }
 
     .filter-options {
       flex-direction: column;
-      row-gap: 16px;
+      row-gap: $gap-sm;
       padding-top: 20px;
 
-      @media screen and (min-width: 1024px) {
-        row-gap: 10px;
+      @media screen and (min-width: $bp-desktop) {
+        row-gap: $gap-small;
         padding-top: 14px;
       }
 
       .custom-checkbox {
         display: flex;
         align-items: center;
-        gap: 8px;
+        gap: $gap-xs;
         cursor: pointer;
         position: relative;
         font-family: $font-primary;
-        font-size: 14px;
+        font-size: $font-sm;
         color: $black;
         min-width: 156px;
 
@@ -313,7 +307,7 @@ main {
         .checkmark {
           width: $checkbox-size;
           height: $checkbox-size;
-          border: 1px solid rgba($black, 0.5);
+          border: 1px solid $black-50;
           box-sizing: border-box;
           position: relative;
         }
@@ -321,10 +315,10 @@ main {
 
       &.size-options {
         grid-template-columns: repeat(4, 1fr);
-        gap: 8px;
+        gap: $gap-xs;
         width: fit-content;
 
-        @media screen and (min-width: 1024px) {
+        @media screen and (min-width: $bp-desktop) {
           padding-top: 24px;
         }
       }
@@ -334,12 +328,12 @@ main {
         height: 32px;
         border: 1px solid $black-50;
         background-color: transparent;
-        border-radius: 0;
+        border-radius: $border-radius-none;
 
         font-family: $font-primary;
-        font-weight: 400;
-        font-size: 16px;
-        line-height: 100%;
+        font-weight: $font-regular;
+        font-size: $font-md;
+        line-height: $line-height-base;
         text-transform: uppercase;
         color: $black-50;
 
@@ -356,17 +350,17 @@ main {
     bottom: 0;
     left: 0;
     width: 100%;
-    padding: 16px;
+    padding: $padding-base;
     background-color: $white;
     display: flex;
     justify-content: space-between;
-    gap: 8px;
-    z-index: 1001;
+    gap: $gap-xs;
+    z-index: $z-header;
 
     .filter-button-option {
       flex: 1;
       padding: 12px 0;
-      font-size: 16px;
+      font-size: $font-md;
       cursor: pointer;
       text-transform: uppercase;
 
@@ -396,10 +390,10 @@ main {
     width: 100%;
     height: 100%;
     padding: 0 30px 0 10px;
-    font-size: 14px;
+    font-size: $font-sm;
     color: $black;
     border: 1px solid $gray;
-    border-radius: 0;
+    border-radius: $border-radius-none;
     background-color: $white;
     font-family: $font-primary;
     cursor: pointer;
@@ -407,7 +401,7 @@ main {
     -webkit-appearance: none;
     -moz-appearance: none;
     -webkit-appearance: none;
-    -webkit-border-radius: 0px;
+    -webkit-border-radius: $border-radius-none;
 
     background: url("data:image/svg+xml,%3Csvg width='12' height='9' viewBox='0 0 12 9' fill='none' xmlns='http://www.w3.org/2000/svg'%3E%3Cpath d='M1 1L6 8L11 1.00935' stroke='%23666666' stroke-linecap='round'/%3E%3C/svg%3E")
       no-repeat right 10px center;
@@ -423,15 +417,20 @@ main {
 
     option {
       color: $black;
-      border-radius: 0;
-      -webkit-border-radius: 0px !important;
-      -moz-border-radius: 0px !important;
-      border-radius: 0px !important;
+      border-radius: $border-radius-none;
+      -webkit-border-radius: $border-radius-none !important;
+      -moz-border-radius: $border-radius-none !important;
+      border-radius: $border-radius-none !important;
 
       &:checked,
       &[selected] {
         background-color: $orange;
         color: $white;
+
+        &:hover {
+          background-color: $orange;
+          color: $white;
+        }
       }
     }
   }
@@ -439,12 +438,12 @@ main {
 
 // Product List
 .product-gallery {
-  margin: 34px 16px 40px;
+  margin: $margin-product-list-mobile;
   display: grid;
   grid-template-columns: repeat(2, 1fr);
-  gap: 20px;
+  gap: $gap-m;
 
-  @media (min-width: 1024px) {
+  @media (min-width: $bp-desktop) {
     grid-template-columns: repeat(3, 1fr);
     margin-top: 0;
   }
@@ -455,7 +454,7 @@ main {
     height: 357px;
     position: relative;
 
-    @media (min-width: 1024px) {
+    @media (min-width: $bp-desktop) {
       max-width: 195px;
       height: 426px;
     }
@@ -464,46 +463,46 @@ main {
       width: 100%;
       height: 242px;
 
-      @media screen and (min-width: 1024px) {
+      @media screen and (min-width: $bp-desktop) {
         height: 293px;
       }
     }
 
     .product-name {
       font-family: $font-primary;
-      font-weight: 400;
-      font-size: 14px;
+      font-weight: $font-regular;
+      font-size: $font-sm;
       text-align: center;
-      line-height: 100%;
+      line-height: $line-height-base;
       text-transform: uppercase;
       color: $black;
-      margin-top: 8px;
+      margin-top: $margin-sm;
 
-      @media screen and (min-width: 1024px) {
-        margin-top: 10px;
+      @media screen and (min-width: $bp-desktop) {
+        margin-top: $margin-top-sm;
       }
     }
 
     .product-price {
       font-family: $font-primary;
-      font-weight: 700;
-      font-size: 14px;
+      font-weight: $font-bold;
+      font-size: $font-sm;
       text-align: center;
-      line-height: 100%;
+      line-height: $line-height-base;
       color: $black;
       margin-top: 4px;
 
-      @media screen and (min-width: 1024px) {
-        margin-top: 10px;
+      @media screen and (min-width: $bp-desktop) {
+        margin-top: $margin-top-sm;
       }
     }
 
     .product-installment {
       font-family: $font-primary;
-      font-weight: 400;
-      font-size: 14px;
+      font-weight: $font-regular;
+      font-size: $font-sm;
       text-align: center;
-      line-height: 100%;
+      line-height: $line-height-base;
       color: $gray;
     }
   }
@@ -511,16 +510,16 @@ main {
 
 .add-to-cart-button {
   font-family: $font-primary;
-  font-weight: 700;
-  font-size: 14px;
-  line-height: 100%;
+  font-weight: $font-bold;
+  font-size: $font-sm;
+  line-height: $line-height-base;
   text-transform: uppercase;
   background-color: $black;
   color: $white;
   height: 33px;
   width: 100%;
   border: none;
-  margin-top: 11px;
+  margin-top: $margin-top-xs;
   cursor: pointer;
   position: absolute;
   bottom: 0;
@@ -531,7 +530,7 @@ main {
   flex-direction: column;
   align-items: center;
 
-  @media screen and (min-width: 1024px) {
+  @media screen and (min-width: $bp-desktop) {
     max-width: 976px;
     width: 100%;
   }
@@ -540,19 +539,20 @@ main {
 .load-more {
   width: 175px;
   height: 35px;
-  padding: 8px 31px;
+  padding: $padding-button;
   background-color: $orange;
   border: none;
   color: $white;
   font-family: $font-primary;
-  font-weight: 700;
-  font-size: 14px;
-  line-height: 100%;
+  font-weight: $font-bold;
+  font-size: $font-sm;
+  line-height: $line-height-base;
   text-transform: uppercase;
-  margin: 0 auto 42px;
+  margin: 0 auto $margin-bottom-md;
+  cursor: pointer;
 
-  @media screen and (min-width: 768px) {
-    margin-bottom: 35px;
+  @media screen and (min-width: $bp-tablet) {
+    margin-bottom: $margin-lg;
   }
 }
 
@@ -565,9 +565,9 @@ footer {
   height: 33px;
   background-color: $black;
   font-family: $font-primary;
-  font-weight: 400;
-  font-size: 14px;
-  line-height: 100%;
+  font-weight: $font-regular;
+  font-size: $font-sm;
+  line-height: $line-height-base;
   text-transform: uppercase;
   color: $white;
   text-align: center;
@@ -581,8 +581,8 @@ footer {
   left: 0;
   width: 100vw;
   height: 100vh;
-  background-color: rgba(0, 0, 0, 0.4);
-  z-index: 999;
+  background-color: $overlay-bg;
+  z-index: $z-panel;
 
   &.open {
     display: block;
@@ -598,7 +598,7 @@ footer {
   background-color: $white;
   display: none;
   flex-direction: column;
-  z-index: 1000;
+  z-index: $z-overlay;
   overflow-y: auto;
 
   &.open {
@@ -623,12 +623,12 @@ footer {
 
   &__content {
     .minicart__title {
-      padding: 16px;
+      padding: $padding-base;
       border-bottom: 1px solid $gray;
       font-family: $font-primary;
-      font-weight: 400;
-      font-size: 28px;
-      line-height: 100%;
+      font-weight: $font-regular;
+      font-size: $font-xxl;
+      line-height: $line-height-base;
       letter-spacing: 0%;
       text-transform: uppercase;
       color: $gray;
@@ -640,49 +640,49 @@ footer {
       .minicart__item {
         display: flex;
         align-items: flex-start;
-        gap: 16px;
-        margin-bottom: 16px;
+        gap: $gap-sm;
+        margin-bottom: $margin-md;
 
         .minicart__item-image {
           width: 100px;
-          border-radius: 0;
+          border-radius: $border-radius-none;
         }
 
         .minicart__item-name {
           font-family: $font-primary;
-          font-weight: 400;
-          font-size: 14px;
+          font-weight: $font-regular;
+          font-size: $font-sm;
           text-align: left;
-          line-height: 100%;
+          line-height: $line-height-base;
           text-transform: uppercase;
           color: $black;
-          margin-top: 8px;
+          margin-top: $margin-sm;
         }
 
         .minicart__item-quantity {
           font-family: $font-primary;
-          font-weight: 400;
-          font-size: 14px;
+          font-weight: $font-regular;
+          font-size: $font-sm;
           text-align: left;
-          line-height: 100%;
+          line-height: $line-height-base;
           color: $black;
-          margin-top: 8px;
+          margin-top: $margin-sm;
         }
 
         .minicart__item-price {
           font-family: $font-primary;
-          font-weight: 700;
-          font-size: 14px;
+          font-weight: $font-bold;
+          font-size: $font-sm;
           text-align: left;
-          line-height: 100%;
+          line-height: $line-height-base;
           color: $black;
-          margin-top: 8px;
+          margin-top: $margin-sm;
         }
       }
     }
   }
 
-  @media (min-width: 768px) {
+  @media (min-width: $bp-tablet) {
     width: 400px;
   }
 }

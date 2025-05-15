@@ -1,16 +1,66 @@
 // Colors
-$gray: #666666;
-$dark-gray: #333333;
+$gray: #666;
+$dark-gray: #333;
 $light-gray: #c7c7c7;
 $orange: #fb953e;
 $black: #000;
 $white: #fff;
-$black-50: rgba(0, 0, 0, 0.5);
 
-// Typography
-$font-primary: "Open Sans", sans-serif;
+$black-50: rgba($black, 0.5);
+$overlay-bg: rgba(0, 0, 0, 0.4);
+
+// Spaces
+$padding-header-mobile: 0 25.75px 0 35px;
+$padding-horizontal-mobile: 0 16px;
+$padding-base: 16px;
+$padding-bottom-panel: 88px;
+$padding-button: 8px 31px;
+$padding-sort-options: 30px 16px 0;
+
+$gap-xs: 8px;
+$gap-sm: 16px;
+$gap-small: 10px;
+$gap-m: 20px;
+$gap-large: 30px;
+
+$margin-horizontal-auto: 0 auto;
+$margin-product-list-mobile: 34px 16px 40px;
+
+$margin-sm: 8px;
+$margin-md: 16px;
+$margin-lg: 35px;
+$margin-bottom-md: 42px;
+$margin-top-sm: 10px;
+$margin-top-xs: 11px;
 
 // Sizes
 $header-height: 64px;
 $checkbox-size: 16px;
 $check-inner-size: 10px;
+
+// Breakpoints
+$bp-tablet: 768px;
+$bp-desktop: 1024px;
+
+// Fonts
+$font-primary: "Open Sans", sans-serif;
+$font-xs: 10px;
+$font-sm: 14px;
+$font-md: 16px;
+$font-lg: 22px;
+$font-xl: 24px;
+$font-xxl: 28px;
+$font-xxxl: 32px;
+
+$font-regular: 400;
+$font-bold: 700;
+
+$line-height-base: 100%;
+
+// Borders
+$border-radius-none: 0;
+$border-radius-circle: 50px;
+
+$z-overlay: 1000;
+$z-panel: 999;
+$z-header: 1001;
